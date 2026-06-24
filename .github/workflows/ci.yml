@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      # Guardrail suite — fully offline (no opencode binary, no model calls, no secrets).
+      - name: Guardrail tests
+        run: bun run test
+      # Type/parse sanity on every entrypoint.
+      - name: Build check
+        run: bun build mcp/server.ts scripts/benchmark.ts scripts/selftest.ts scripts/check-server.ts --target=node --outdir /tmp/ci-build
