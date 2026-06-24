@@ -8,6 +8,23 @@ forced onto an `opencode-go/<model>`. It is impossible to reach OpenCode Zen,
 OpenAI, or any other provider through these tools — every model string funnels
 through `normalizeModel()`, which throws on any non-`opencode-go` prefix.
 
+## Setup
+
+**Prerequisites:** [bun](https://bun.sh) and the [opencode](https://opencode.ai) CLI on your
+`PATH`, with the `opencode-go` provider authenticated — `opencode auth list` should show
+`opencode-go`. (`opencode auth login` to add it.)
+
+```bash
+git clone git@github.com:PepesTech/pepe-brain.git
+cd pepe-brain
+bun install
+```
+
+The bundled [.mcp.json](.mcp.json) registers the server at **project scope** with a relative
+path and `command: bun` (no machine-specific paths). Open this folder in Claude Code, approve the
+`opencode-go` server when prompted, then restart Claude Code to load it. Verify with `bun run check`.
+The `opencode` binary is auto-resolved from `OPENCODE_BIN`, then `~/.bun/bin/opencode`, then `PATH`.
+
 ## Tools (MCP, stdio)
 
 | Tool | Purpose |
@@ -140,3 +157,7 @@ bun run models                      # print the opencode-go model list
   `sessionID` is still returned on timeout so a run can be resumed.
 - **Lock scope:** the boundary is the *provider*. `agent`/`mode` never change it;
   `reduce.model` and every fanout task model funnel through `normalizeModel()`.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
