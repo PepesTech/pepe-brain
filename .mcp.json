@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "opencode-go": {
+      "command": "/Users/luissifontes/.bun/bin/bun",
+      "args": ["run", "/Users/luissifontes/dev/pepe-brain/mcp/server.ts"],
+      "env": {
+        "PATH": "/Users/luissifontes/.bun/bin:/usr/local/bin:/usr/bin:/bin",
+        "OPENCODE_BIN": "/Users/luissifontes/.bun/bin/opencode"
+      }
+    }
+  }
+}

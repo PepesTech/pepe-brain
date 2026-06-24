@@ -1,0 +1,18 @@
+{
+  "name": "pepe-brain",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Multi-agent bridge: Claude Code orchestrates opencode workers via the OpenCode Go provider",
+  "scripts": {
+    "mcp": "bun run mcp/server.ts",
+    "check": "bun run scripts/check-server.ts",
+    "test": "bun run scripts/selftest.ts",
+    "bench": "bun run scripts/benchmark.ts",
+    "models": "bun run mcp/lib.ts --list-models"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^4.4.3"
+  }
+}
