@@ -166,6 +166,23 @@ bun run models                      # print the opencode-go model list
 - **Lock scope:** the boundary is the *provider*. `agent`/`mode` never change it;
   `reduce.model` and every fanout task model funnel through `normalizeModel()`.
 
+## Troubleshooting
+
+- **Every worker fails with `model_error` / "Unexpected server error"** — almost always a stale local
+  `opencode` (a DB/schema mismatch after a version gap, e.g. a `SQLiteError: no such column …`). Fix:
+  ```bash
+  opencode upgrade
+  opencode run "ping" --model opencode-go/deepseek-v4-flash   # should print a reply, not an error
+  ```
+  The bridge spawns the `opencode` binary per run, so the fix applies without re-registering the MCP
+  server. The bridge faithfully surfaces the upstream error (`errorKind: model_error`) — it is not a
+  bridge bug. (`bun run check` only lists models and will pass even when runs are broken, so test an
+  actual run.)
+- **`provider_lock`** — the model wasn't `opencode-go`. Use a role alias (`code`, `fast`, …) or an
+  explicit `opencode-go/<id>`.
+- **Worker hangs to timeout in edit mode** — see `permission_deadlock` / `cwd_required` /
+  `edit_collision` in the errorKind table above; each needs a distinct `cwd`/worktree.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
