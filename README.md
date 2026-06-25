@@ -8,22 +8,30 @@ forced onto an `opencode-go/<model>`. It is impossible to reach OpenCode Zen,
 OpenAI, or any other provider through these tools — every model string funnels
 through `normalizeModel()`, which throws on any non-`opencode-go` prefix.
 
-## Setup
+## Quickstart (teammates)
 
-**Prerequisites:** [bun](https://bun.sh) and the [opencode](https://opencode.ai) CLI on your
-`PATH`, with the `opencode-go` provider authenticated — `opencode auth list` should show
-`opencode-go`. (`opencode auth login` to add it.)
+**Prerequisites:** Claude Code, plus [bun](https://bun.sh) and the [opencode](https://opencode.ai)
+CLI on your `PATH`. **Each person needs their own OpenCode Go credential** — it is NOT shared via the
+repo. Run `opencode auth list`; it must show `opencode-go` (else `opencode auth login`).
 
 ```bash
 git clone git@github.com:PepesTech/pepe-brain.git
 cd pepe-brain
 bun install
+bun run check          # lists the 3 tools + models -> everything wired
 ```
 
-The bundled [.mcp.json](.mcp.json) registers the server at **project scope** with a relative
-path and `command: bun` (no machine-specific paths). Open this folder in Claude Code, approve the
-`opencode-go` server when prompted, then restart Claude Code to load it. Verify with `bun run check`.
-The `opencode` binary is auto-resolved from `OPENCODE_BIN`, then `~/.bun/bin/opencode`, then `PATH`.
+Then in Claude Code:
+1. Open the `pepe-brain` folder.
+2. Approve the **`opencode-go`** MCP server when prompted (registered by [.mcp.json](.mcp.json), project
+   scope, relative path — no machine-specific paths).
+3. **Restart Claude Code** so it loads the server.
+
+That's it. You don't need to remember the tool names: the bundled **`delegate-to-go`** skill
+([.claude/skills](.claude/skills/delegate-to-go/SKILL.md)) auto-orchestrates — **just describe the task
+in plain language** ("get a consensus from a few Go models on X", "refactor these files"). Type
+**`/delegate <task>`** to force delegation explicitly. The `opencode` binary is auto-resolved from
+`OPENCODE_BIN`, then `~/.bun/bin/opencode`, then `PATH`.
 
 ## Tools (MCP, stdio)
 
